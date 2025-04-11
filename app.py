@@ -5,7 +5,8 @@ from bson.objectid import ObjectId
 app = Flask(__name__)
 
 # MongoDB Connection
-client = MongoClient('mongodb://localhost:27017/')
+# client = MongoClient('mongodb://localhost:27017/')
+client = MongoClient('mongodb://mongo:27017/')
 db = client.todoDB
 todos = db.todos
 
