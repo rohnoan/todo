@@ -87,6 +87,10 @@
                     <a href="/delete/{{ task._id }}" class="btn btn-danger">🗑</a>
                 </div>
             </form>
+            <div class="mt-2">
+                <span class="text-muted">Time Remaining: </span>
+                <span class="text-danger countdown" data-due-date="{{ task.due_date }}"></span>
+            </div>
         </div>
     </div>
     {% endfor %}
@@ -100,6 +104,28 @@
     }
     setInterval(updateTimer, 1000);
     updateTimer();
+
+    function updateCountdowns() {
+        const countdownElements = document.querySelectorAll('.countdown');
+        countdownElements.forEach(el => {
+            const dueDate = new Date(el.getAttribute('data-due-date'));
+            const now = new Date();
+            const diff = dueDate - now;
+
+            if (diff > 0) {
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+                el.innerText = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+            } else {
+                el.innerText = "Expired";
+            }
+        });
+    }
+
+    setInterval(updateCountdowns, 1000);
+    updateCountdowns();
 </script>
 </body>
 </html>
